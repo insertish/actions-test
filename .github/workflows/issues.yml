@@ -8,13 +8,11 @@ jobs:
       - name: Get project data
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
-          ORGANIZATION: insertish
-          PROJECT_NUMBER: 1
         run: |
           gh api graphql -f query='
-            query($org: String!, $number: Int!) {
-              user(login: $org){
-                projectNext(number: $number) {
+            query() {
+              user(login: "insertish"){
+                projectNext(number: 1) {
                   id
                   fields(first:20) {
                     nodes {
@@ -25,7 +23,7 @@ jobs:
                   }
                 }
               }
-            }' -f org=$ORGANIZATION -F number=$PROJECT_NUMBER > project_data.json
+            }' > project_data.json
 
           echo 'PROJECT_ID='$(jq '.data.organization.projectNext.id' project_data.json) >> $GITHUB_ENV
           echo 'DATE_FIELD_ID='$(jq '.data.organization.projectNext.fields.nodes[] | select(.name== "Date posted") | .id' project_data.json) >> $GITHUB_ENV
