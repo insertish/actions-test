@@ -35,7 +35,7 @@ jobs:
       - name: Add issue to project
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
-          PR_ID: ${{ github.event.issue.node_id }}
+          PR_ID: ${{ github.event.issue.number }}
         run: |
           item_id="$( gh api graphql -f query='
             mutation($project:ID!, $pr:ID!) {
