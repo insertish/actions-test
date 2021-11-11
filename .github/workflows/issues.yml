@@ -10,7 +10,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           gh api graphql -f query='
-            query() {
+            query {
               user(login: "insertish"){
                 projectNext(number: 1) {
                   id
